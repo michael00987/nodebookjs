@@ -13,7 +13,7 @@ relationship1.logFriends();
 let relationship2 = {
   name: 'zero',
   friends: ['nero', 'hero', 'xero'],
-  logFriends: function () {
+  logFriends() {
     this.friends.forEach((friend) => {
       console.log(this.name, friend);
     });
