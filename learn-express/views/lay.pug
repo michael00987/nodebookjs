@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title= title + " " + title2
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    style.
+      p{
+        color:red
+      }
+  body
+    include header
+    block content
+    // 바뀌는 부분은 스크립트로 만든다
+    include footer
+    block script
+      script.
+        console.log('블럭의 기본값')
+    // 바뀌는 부분은 스크립트로 만든다

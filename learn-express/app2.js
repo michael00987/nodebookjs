@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // view engine setup
+// 아래 두줄의 코드는 view engine 엔진으로 pug를 사용하고 pug 파일은 views 경로에 있다는 것을 express 에 알려주는 코드이다.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug'); // pug 가 html을 대체할수 있도록 설정해 놓음
 

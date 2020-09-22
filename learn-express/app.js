@@ -9,7 +9,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 //   // 모든 미들웨어를 use 하나에 작성할수 있다.
 // app.use(
 //   logger('dev'),

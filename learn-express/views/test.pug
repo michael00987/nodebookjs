@@ -1,0 +1,35 @@
+extends lay.pug
+
+block content
+  div(id="michael" widht=500)
+  div#michael(widht=500)
+  #michael(widht=500)
+  //- 위 3개 코드는 같은 코드이다.
+  span(class="express nodejs")
+  span.express.nodejs
+  //- 위 2개 코드는 같은 코드이다.
+
+  -const variable = true // 조건문과 반복문
+  if variable 
+    div 참입니다.
+  else
+    div 거짓입니다.
+  for i in ['가','나','다']
+    div= i
+
+  button.button(type="submit") 전송
+  // <button class="button" type="submit">전송</button>
+  p
+    |여러줄
+    |입력가능 합니다.
+    br
+    |태그도 중간에 넣을 수 있다.
+    // <p>여러줄 입력가능 합니다. <br /> 태그도 중간에 넣을 수 있다.</p>
+block script
+  script.
+    // 스크립트 테그 뒤에 .을 붙이면 자바스크립트 코드를 사용할수 있다.
+    // style 태그를 사용하는 것도 스크립트 태그와 같이 뒤에 .을 붙이고 css 코드를 작성하면 된다.
+    const button = document.querySelector('.button')
+    button.addEventListener('click',()=>{
+      console.log('aaa')
+    })
