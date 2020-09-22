@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <% let hangul = '한글' %> <% include header.ejs %>
+    <h1><%= title %></h1>
+    <% for ( i in fruits) {%>
+    <p>Welcome to <%= fruits[i] %></p>
+    <% } %> <% for ( i of fruits) {%>
+    <p>Welcome to <%= i%></p>
+    <% } %> <% include footer.ejs %>
+  </body>
+</html>
