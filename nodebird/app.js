@@ -10,6 +10,7 @@ require('dotenv').config();
 const indexRouter = require('./routes/');
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
+const postRouter = require('./routes/post');
 const commentRouter = require('./routes/comment');
 const {sequelize} = require('./models');
 const passportConfig = require('./passport');
@@ -24,6 +25,7 @@ app.set('port', process.env.PORT || '3000');
 
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -42,13 +44,11 @@ app.use(
 app.use(flash());
 app.use(passport.initialize()); // 패스포트 설정 초기화 하는 미들웨어
 app.use(passport.session()); // 패스포트는 세션을 이용한다.
-app.use((req, res, next) => {
-  console.log('\n', req.session, '\n');
-  next();
-});
+
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/users', userRouter);
+app.use('/user', userRouter);
+app.use('/post', postRouter);
 app.use('/comments', commentRouter);
 
 app.use((req, res, next) => {

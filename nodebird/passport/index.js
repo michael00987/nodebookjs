@@ -11,7 +11,13 @@ module.exports = (passport) => {
   passport.deserializeUser((id, done) => {
     // 접속후에 요청 할 때마다 실행된다.
     // id:1 ==> user{id:1,nick:michael,email:michael@gmail.com, ...}
-    User.findOne({where: {id}})
+    User.findOne({
+      where: {id},
+      include: [
+        {model: User, attributes: ['id', 'nick'], as: 'Followers'},
+        {model: User, attributes: ['id', 'nick'], as: 'Followings'},
+      ],
+    })
       .then((user) => done(null, user))
       .catch((e) => done(e));
   });

@@ -11,7 +11,7 @@ module.exports = (passport) => {
       async (email, password, done) => {
         //done(에러, 성공, 실패)
         try {
-          const exUser = await User.find({where: {email}});
+          const exUser = await User.findOne({where: {email}});
           if (exUser) {
             const result = await bcrypt.compare(password, exUser.password);
             if (result) {
