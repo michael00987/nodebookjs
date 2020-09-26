@@ -4,7 +4,7 @@ const router = express.Router();
 const {isLoggedIn, isNotLoggedIn} = require('./middlewares');
 
 router.get('/profile', isLoggedIn, (req, res, next) => {
-  res.render('profile', {title: '내정보-nodebird', user: null});
+  res.render('profile', {title: '내정보-nodebird', user: req.user});
 });
 router.get('/join', isNotLoggedIn, (req, res, next) => {
   res.render('join', {
