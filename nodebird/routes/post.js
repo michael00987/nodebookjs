@@ -61,6 +61,16 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
   }
 });
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    await Post.destroy({where: {id: req.params.id, userId: req.user.id}});
+    res.send('OK');
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
 router.get('/hashtag', async (req, res, next) => {
   const query = req.query.hashtag;
   if (!query) {
