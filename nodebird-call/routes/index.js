@@ -1,8 +1,11 @@
 const axios = require('axios');
 const express = require('express');
+const {Hashtag} = require('../../nodebird-api/models');
+const {verifyToken} = require('../../nodebird-api/routes/middlewares');
 const router = express.Router();
 
 router.get('/test', async (req, res, next) => {
+  console.log('=-=-==-=-=-=-=-=-=-============----------');
   try {
     if (!req.session.jwt) {
       const tokenResult = await axios.post('http://localhost:8002/v1/token', {
@@ -59,6 +62,16 @@ router.get('/mypost', async (req, res, next) => {
 router.get('/search/:hashtag', async (req, res, next) => {
   try {
     const result = await request(req, `/posts/hashtag/${encodeURIComponent(req.params.hashtag)}`);
+    res.json(result.data);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.get('/follow', async (req, res, next) => {
+  try {
+    const result = await request(req, '/follow');
     res.json(result.data);
   } catch (e) {
     console.error(e);
