@@ -12,6 +12,7 @@ const passportConfig = require('./passport');
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/');
 const v1 = require('./routes/v1');
+const v2 = require('./routes/v2');
 
 const app = express();
 sequelize.sync();
@@ -43,6 +44,7 @@ app.use(passport.initialize()); // 패스포트 설정 초기화 하는 미들�
 app.use(passport.session()); // 패스포트는 세션을 이용한다.
 
 app.use('/v1', v1);
+app.use('/v2', v2);
 app.use('/auth', authRouter);
 app.use('/', indexRouter);
 
