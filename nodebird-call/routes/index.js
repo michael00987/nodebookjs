@@ -5,7 +5,6 @@ const {verifyToken} = require('../../nodebird-api/routes/middlewares');
 const router = express.Router();
 
 router.get('/test', async (req, res, next) => {
-  console.log('=-=-==-=-=-=-=-=-=-============----------');
   try {
     if (!req.session.jwt) {
       const tokenResult = await axios.post('http://localhost:8002/v2/token', {
@@ -79,4 +78,7 @@ router.get('/follow', async (req, res, next) => {
   }
 });
 
+router.get('/abcd', (req, res) => {
+  res.render('main', {key: process.env.CLIENT_SECRET});
+});
 module.exports = router;

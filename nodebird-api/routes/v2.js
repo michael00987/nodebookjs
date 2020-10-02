@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(async (req, res, next) => {
   const domain = await Domain.findOne({
-    where: {host: url.parse(req.get('origin')).hst},
+    where: {host: url.parse(req.get('origin')).host},
   });
   if (domain) {
     cors({origin: req.get('origin')})(req, res, next);
@@ -17,7 +17,6 @@ router.use(async (req, res, next) => {
     next();
   }
 });
-router.use(cors());
 
 router.post('/token', apiLimiter, async (req, res) => {
   const {clientSecret} = req.body;
