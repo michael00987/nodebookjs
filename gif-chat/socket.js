@@ -1,5 +1,7 @@
-const axios = require('axios');
 const SocketIo = require('socket.io');
+const axios = require('axios');
+const cookieParser=require('cookie-parser')
+const cookie=require('cookie-signature')
 
 module.exports = (server, app, sessionMiddleware) => {
   const io = SocketIo(server, { path: '/socket.io'}); // 클라이언트의 path 와 일치해야 한다.
@@ -11,6 +13,9 @@ module.exports = (server, app, sessionMiddleware) => {
   const chat = io.of('/chat'); // chat 내용에 대해서만 통신
   
   // 익스프레스 미들웨어를 소켓io에서 쓰는 방법
+  io.use((socket, next) => { 
+    cookieParser(process.env.COOKIE_SECRET)(socket.request, socket.request.res, next);
+  });
   io.use((socket, next) => { 
     sessionMiddleware(socket.request, socket.request.res, next);
   });
@@ -33,12 +38,18 @@ module.exports = (server, app, sessionMiddleware) => {
     .replace(/\?.+/, '');
     socket.join(roomId) //  방에 접속
 
-    socket.to(roomId).emit('join', {
-      user: 'system',
-      chat: `${req.session.color}님이 입장하셨습니다.`,
-      number:socket.adapter.rooms[roomId].length,
-    });
-
+    // socket.to(roomId).emit('join', {
+    //   user: 'system',
+    //   chat: `${req.session.color}님이 입장하셨습니다.`,
+    //   number:socket.adapter.rooms[roomId].length,
+    // });
+    axios.post(`http://localhost:8005/room/${roomId}/sys`,{
+      type: 'join',
+      },{
+      headers:{      
+      Cookie: `connect.sid=s%3A${cookie.sign(req.signedCookies['connect.sid'],process.env.COOKIE_SECRET)}`
+      },
+    })
     socket.on('disconnect', () => {
       console.log('chat 네임스페이스 접속 해제');
       socket.leave(roomId); // 방 나가기
@@ -55,11 +66,18 @@ module.exports = (server, app, sessionMiddleware) => {
             console.error(error);
           });
       } else {
-        socket.to(roomId).emit('exit', {
-          user: 'system',
-          chat: `${req.session.color}님이 퇴장하셨습니다.`,
-          number:socket.adapter.rooms[roomId].length
-        });
+        // socket.to(roomId).emit('exit', {
+        //   user: 'system',
+        //   chat: `${req.session.color}님이 퇴장하셨습니다.`,
+        //   number:socket.adapter.rooms[roomId].length
+        // });
+        axios.post(`http://localhost:8005/room/${roomId}/sys`,{
+          type:'exit',
+        },{
+          headers:{
+          Cookie: `connect.sid=s%3A${cookie.sign(req.signedCookies['connect.sid'],process.env.COOKIE_SECRET)}`
+          }
+        })
       }
     });
   });
