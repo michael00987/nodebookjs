@@ -57,11 +57,13 @@ router.get('/room/:id', async (req, res, next) => {
       req.flash('roomError', '허용 인원이 초과하였습니다.');
       return res.redirect('/');
     }
+    console.log(rooms&&rooms[req.params.id])
     const chats = await Chat.find({ room: room._id }).sort('createdAt');
     return res.render('chat', {
       room,
       title: room.title,
       chats,
+      number:(rooms&&rooms[req.params.id] &&rooms[req.params.id].length+1)||1,
       user: req.session.color,
     });
   } catch (error) {
